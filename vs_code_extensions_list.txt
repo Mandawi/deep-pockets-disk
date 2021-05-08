@@ -1,0 +1,16 @@
+aliariff.vscode-erb-beautify
+ecmel.vscode-html-css
+GitHub.github-vscode-theme
+GrapeCity.gc-excelviewer
+jemmyw.rails-fast-nav
+kaiwood.endwise
+kylepaulsen.stack-tabs
+ms-azuretools.vscode-docker
+ms-vscode-remote.remote-containers
+phplasma.csv-to-table
+rebornix.ruby
+robert.ruby-snippet
+thekalinga.bootstrap4-vscode
+uloco.theme-bluloco-dark
+wingrunr21.vscode-ruby
+ZainChen.json

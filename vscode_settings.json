@@ -1,0 +1,18 @@
+{
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false,
+  "solargraph.autoformat": true,
+  "editor.minimap.enabled": false,
+  "workbench.colorTheme": "GitHub Dark Default",
+  "editor.cursorStyle": "line-thin",
+  "terminal.integrated.cursorStyle": "line",
+  "terminal.explorerKind": "external",
+  "terminal.integrated.allowChords": false,
+  "terminal.integrated.drawBoldTextInBrightColors": false,
+  "terminal.integrated.experimentalLinkProvider": false,
+  "terminal.integrated.rendererType": "auto",
+  "terminal.integrated.fontFamily": "Meslo LG M DZ for Powerline",
+  "terminal.integrated.fontSize": 12,
+  "editor.largeFileOptimizations": false,
+  "window.zoomLevel": -1
+}

@@ -70,3 +70,7 @@ gem 'faker'
 gem 'hirb'
 gem 'binding_of_caller'
 #########################
+
+group :development do
+  gem 'rails_best_practices'
+end

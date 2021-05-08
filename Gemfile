@@ -74,3 +74,5 @@ gem 'binding_of_caller'
 group :development do
   gem 'rails_best_practices'
 end
+
+gem "clearance", "~> 2.4"

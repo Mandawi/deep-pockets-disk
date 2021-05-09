@@ -1,0 +1,18 @@
+<ol class="breadcrumb">
+  <li class="breadcrumb-item active mr-auto">Games</li>
+</ol>
+<div class="card-columns">
+  <% @games.each do |game| %>
+    <div class="card card mb-4">
+      <div class="card-body">
+        <h5 class="card-title"><%= link_to game.to_s, game %></h5>
+        <%= form_for game, url: {action: "join"}, method: :post do |form| -%>
+          <%= hidden_field_tag 'id', game.id %>
+          <%= form.submit "Join", class: "btn btn-primary float-right" %>
+        <% end %>
+        <p class="card-text"><%= time_ago_in_words game.created_at %> ago</p>
+      </div>
+    </div>
+  <% end %>
+</div>
+<%= link_to "new", new_game_path %>

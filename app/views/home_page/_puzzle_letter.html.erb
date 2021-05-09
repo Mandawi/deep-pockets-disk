@@ -1,0 +1,9 @@
+<% if opened_letters.include? letter %>
+  <div class = "display-6 p-3 m-1 text-center card rounded bg-primary text-light" style = "width: 5rem; height: 5rem; display: inline-block;">
+    <%= letter %>
+  </div>
+<% else %>
+  <div class = "display-6 p-3 m-1 text-center card rounded bg-secondary text-secondary" style = "width: 5rem; height: 5rem; display: inline-block;">
+    ?
+  </div>
+<% end %>

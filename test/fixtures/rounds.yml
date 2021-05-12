@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  game_id: 1
+  over: false
+  topic: MyString
+  sentence: MyString
+  opened_letters: MyText
+  current_player_id: 1
+  order: 1
+
+two:
+  game_id: 1
+  over: false
+  topic: MyString
+  sentence: MyString
+  opened_letters: MyText
+  current_player_id: 1
+  order: 1

@@ -9,6 +9,12 @@ class GamesController < ApplicationController
 
   # GET /games/1 or /games/1.json
   def show
+    # TODO: Update to include:
+    # - Rounds
+    # - Players
+    # - Turns
+    # - Track money
+    # - Add total money at end of round
     @sentence = "chickens like to jump"
     @guess = params[:guess]
     @opened_letters = @game.opened_letters
@@ -34,12 +40,20 @@ class GamesController < ApplicationController
 
   # POST /games/1/join
   def join
-    Score.create(game_id: @game.id, user_id: current_user.id)
-    redirect_to games_url
+    # TODO: Update to include:
+    # - Players
+    # - Set player order
+    # - Add one entry to GamePlayer
+    # - Add entries for all rounds to RoundPlayer
+    
+    redirect_to @game
   end
 
   # POST /games or /games.json
   def create
+    # TODO: Update to include:
+    # - Create all rounds
+    # - Set round order
     @game = Game.new(game_params)
     respond_to do |format|
       if @game.save

@@ -1,0 +1,2 @@
+class RoundPlayer < ApplicationRecord
+end

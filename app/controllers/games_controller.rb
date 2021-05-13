@@ -63,7 +63,7 @@ class GamesController < ApplicationController
       GamesUtils.create_game_round(@game, order)
     end
     GamesUtils.create_game_player(@game, current_user, 0)
-    # redirect_to waiting_room
+    redirect_to games_url
   end
 
   # PATCH/PUT /games/1 or /games/1.json

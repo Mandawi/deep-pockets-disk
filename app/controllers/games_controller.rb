@@ -50,6 +50,10 @@ class GamesController < ApplicationController
     redirect_to @game
   end
 
+  def wait
+    # Wait here
+  end
+
   # POST /games or /games.json
   def create
     # TODO: Update to include:
@@ -60,6 +64,8 @@ class GamesController < ApplicationController
     3.each do |order|
       GameUtils.create_game_round(@game, order)
     end
+    GameUtils.create_game_player(@game, current_user, 0)
+    # redirect_to waiting_room
   end
 
   # PATCH/PUT /games/1 or /games/1.json

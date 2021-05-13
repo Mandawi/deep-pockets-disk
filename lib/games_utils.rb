@@ -6,6 +6,12 @@ class GamesUtils
     return JSON.parse(file)[topic].sample
   end
 
+  def self.create_game_player(game, current_user, player_order)
+    GamePlayer.create(  game_id: game.id,
+                        player_id: current_user.id,
+                        player_order: player_order)
+  end
+
   def self.get_random_topic
     file = File.read(ARABIC_CATEGORIZED_PHRASES_FILE_PATH)
     return JSON.parse(file).keys.sample

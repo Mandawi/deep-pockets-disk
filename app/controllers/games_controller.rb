@@ -1,6 +1,6 @@
 require './lib/games_utils'
 class GamesController < ApplicationController
-  before_action :set_game, only: %i[ show edit update destroy join ]
+  before_action :set_game, only: %i[ show edit update destroy join wait ]
   before_action :require_login
 
   # GET /games or /games.json
@@ -57,14 +57,12 @@ class GamesController < ApplicationController
   # POST /games or /games.json
   def create
     # TODO: Update to include:
-    # - Create all rounds
-    # - Set round order
     # - Allow users to choose how many rounds
     @game = Game.create(game_params)
-    3.each do |order|
-      GameUtils.create_game_round(@game, order)
+    (0..2).each do |order|
+      GamesUtils.create_game_round(@game, order)
     end
-    GameUtils.create_game_player(@game, current_user, 0)
+    GamesUtils.create_game_player(@game, current_user, 0)
     # redirect_to waiting_room
   end
 

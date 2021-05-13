@@ -1,5 +1,5 @@
 class GamesUtils
-  ARABIC_CATEGORIZED_PHRASES_FILE_PATH = File.join(Rails.root, 'lib', 'assets', 'plants.json')
+  ARABIC_CATEGORIZED_PHRASES_FILE_PATH = File.join(Rails.root, 'lib', 'assets', 'arabic-categorized-phrases.json')
 
   def self.get_random_phrase_from_topic(topic)
     file = File.read(ARABIC_CATEGORIZED_PHRASES_FILE_PATH)
@@ -26,7 +26,7 @@ class GamesUtils
   end
 
   def self.get_sentence_and_topic(topic = nil)
-    if not topic.exists?
+    if topic.nil?
       topic = self.get_random_topic
     end
     sentence = get_random_phrase_from_topic(topic)

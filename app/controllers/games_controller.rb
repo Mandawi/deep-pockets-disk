@@ -1,3 +1,4 @@
+require './lib/games_utils'
 class GamesController < ApplicationController
   before_action :set_game, only: %i[ show edit update destroy join ]
   before_action :require_login
@@ -54,15 +55,10 @@ class GamesController < ApplicationController
     # TODO: Update to include:
     # - Create all rounds
     # - Set round order
-    @game = Game.new(game_params)
-    respond_to do |format|
-      if @game.save
-        format.html { redirect_to @game, notice: "Game was successfully created." }
-        format.json { render :show, status: :created, location: @game }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @game.errors, status: :unprocessable_entity }
-      end
+    # - Allow users to choose how many rounds
+    @game = Game.create(game_params)
+    3.each do |order|
+      GameUtils.create_game_round(@game, order)
     end
   end
 

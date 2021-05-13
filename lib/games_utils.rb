@@ -7,9 +7,8 @@ class GamesUtils
   end
 
   def self.create_game_player(game, current_user, player_order)
-    GamePlayer.create(  game_id: game.id,
-                        player_id: current_user.id,
-                        player_order: player_order)
+    game.game_players.create( user_id: current_user.id,
+                              player_order: player_order)
   end
 
   def self.get_random_topic
@@ -17,12 +16,13 @@ class GamesUtils
     return JSON.parse(file).keys.sample
   end
 
-  def self.create_game_round(game, order, topic = nil)
+  def self.create_game_round(game, user, order, topic = nil)
     sentence, topic = get_sentence_and_topic(topic)
-    Round.create( game_id: game.id,
+    round = Round.create( game_id: game.id,
                   topic: topic,
                   sentence: sentence,
                   order: order)
+    round.round_players.create(user_id: user.id)
   end
 
   def self.get_sentence_and_topic(topic = nil)

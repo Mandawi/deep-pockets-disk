@@ -10,18 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_13_174643) do
+ActiveRecord::Schema.define(version: 2021_05_13_193151) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "game_players", force: :cascade do |t|
-    t.integer "game_id"
-    t.integer "player_id"
     t.integer "player_total_money", default: 0
     t.integer "player_order"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "game_id"
+    t.bigint "user_id"
+    t.index ["game_id"], name: "index_game_players_on_game_id"
+    t.index ["user_id"], name: "index_game_players_on_user_id"
   end
 
   create_table "games", force: :cascade do |t|
@@ -32,11 +34,13 @@ ActiveRecord::Schema.define(version: 2021_05_13_174643) do
   end
 
   create_table "round_players", force: :cascade do |t|
-    t.integer "round_id"
-    t.integer "player_id"
     t.integer "player_money", default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "round_id"
+    t.bigint "user_id"
+    t.index ["round_id"], name: "index_round_players_on_round_id"
+    t.index ["user_id"], name: "index_round_players_on_user_id"
   end
 
   create_table "rounds", force: :cascade do |t|

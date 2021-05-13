@@ -59,10 +59,10 @@ class GamesController < ApplicationController
     # TODO: Update to include:
     # - Allow users to choose how many rounds
     @game = Game.create(game_params)
-    (0..2).each do |order|
-      GamesUtils.create_game_round(@game, order)
-    end
     GamesUtils.create_game_player(@game, current_user, 0)
+    (0..2).each do |order|
+      GamesUtils.create_game_round(@game, current_user, order)
+    end
     redirect_to games_url
   end
 

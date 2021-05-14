@@ -5,12 +5,11 @@
 <div class="card">
   <ul class="list-group list-group-flush">
   </ul>
-  <h2>Hello <%= @user %> </h2>
-  <p>This is game <%= @game.id %> with the following players:
-    <ul>
-      <% @players.each do |player| %>
-        <li> <%= player %> </li>
-      <% end %>
-    </ul>
-  </p>
+  <div class='p-5'>
+    <% if @game.started? %>
+      <%= render "game_room" %>
+    <% else %>
+      <%= render "waiting_room" %>
+    <% end %>
+  </div>
 </div>

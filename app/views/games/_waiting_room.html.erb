@@ -1,0 +1,11 @@
+<h2>Hello <%= @user %> </h2>
+
+<p>This is game <%= @game.id %> with the following players:
+  <ul>
+    <% @players.each do |player| %>
+      <li> <%= player %> </li>
+    <% end %>
+  </ul>
+</p>
+
+<%= button_to "Start Game", start_game_path(@game), method: :patch %>

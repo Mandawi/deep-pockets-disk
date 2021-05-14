@@ -6,9 +6,12 @@ class GamesUtils
     return JSON.parse(file)[topic].sample
   end
 
-  def self.create_game_player(game, current_user, player_order)
-    game.game_players.create( user_id: current_user.id,
+  def self.create_game_player(game, user, player_order)
+    game.game_players.create( user_id: user.id,
                               player_order: player_order)
+    game.rounds.each do |round|
+      round.round_players.create(user_id: user.id)
+    end
   end
 
   def self.get_random_topic

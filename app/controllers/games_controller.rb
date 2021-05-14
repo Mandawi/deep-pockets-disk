@@ -39,21 +39,6 @@ class GamesController < ApplicationController
   def edit
   end
 
-  # POST /games/1/join
-  def join
-    # TODO: Update to include:
-    # - Players
-    # - Set player order
-    # - Add one entry to GamePlayer
-    # - Add entries for all rounds to RoundPlayer
-    
-    redirect_to @game
-  end
-
-  def wait
-    # Wait here
-  end
-
   # POST /games or /games.json
   def create
     # TODO: Update to include:
@@ -63,7 +48,7 @@ class GamesController < ApplicationController
     (0..2).each do |order|
       GamesUtils.create_game_round(@game, current_user, order)
     end
-    redirect_to games_url
+    redirect_to @game
   end
 
   # PATCH/PUT /games/1 or /games/1.json

@@ -76,3 +76,5 @@ group :development do
 end
 
 gem "clearance", "~> 2.4"
+
+gem 'solargraph', group: :development

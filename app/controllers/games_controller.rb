@@ -4,6 +4,7 @@ class GamesController < ApplicationController
   before_action :set_game_room, only: [:show, :update]
   before_action :set_waiting_room, only: [:show, :update]
   before_action :require_login
+  skip_before_action :verify_authenticity_token
 
   # GET /games or /games.json
   def index
@@ -171,11 +172,13 @@ class GamesController < ApplicationController
 
     def set_waiting_room
       if not @game.started?
-        if not @game.users.include? current_user
+        @game_players = @game.game_players
+        if not @game.users.include? current_user and not @game.game_players.empty?
           GamesUtils.create_game_player(@game, current_user, @game.game_players.last.player_order + 1)
+        elsif not @game.users.include? current_user
+          GamesUtils.create_game_player(@game, current_user, 0)
         end
         @user = helpers.get_username(current_user.email)
-        @players = @game.users.map { |user| helpers.get_username(user.email) }
       end
     end
 

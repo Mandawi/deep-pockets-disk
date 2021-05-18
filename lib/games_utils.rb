@@ -7,11 +7,12 @@ class GamesUtils
   end
 
   def self.create_game_player(game, user, player_order)
-    game.game_players.create( user_id: user.id,
+    game_player = game.game_players.create( user_id: user.id,
                               player_order: player_order)
     game.rounds.each do |round|
       round.round_players.create(user_id: user.id)
     end
+    return game_player
   end
 
   def self.get_random_topic
@@ -24,7 +25,8 @@ class GamesUtils
     round = Round.create( game_id: game.id,
                   topic: topic,
                   sentence: sentence,
-                  order: order)
+                  order: order,
+                  current_player_id: user.id)
     round.round_players.create(user_id: user.id)
   end
 

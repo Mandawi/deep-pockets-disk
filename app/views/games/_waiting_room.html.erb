@@ -1,9 +1,11 @@
+<%= turbo_stream_from "#{@game.id}-players" %>
+
 <h2>Hello <%= @user %> </h2>
 
 <p>This is game <%= @game.id %> with the following players:
   <ul>
-    <% @players.each do |player| %>
-      <li> <%= player %> </li>
+    <%= turbo_frame_tag "#{@game.id}-players" do %>
+      <%= render @game_players %>
     <% end %>
   </ul>
 </p>

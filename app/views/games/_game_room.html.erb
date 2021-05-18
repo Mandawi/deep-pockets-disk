@@ -27,7 +27,7 @@
   
   <div>
     <% if @player.id == current_user.id %>
-      <%= form_with url: @game, method: :post do |form| %>
+      <%= form_with url: @game, method: :get do |form| %>
         <%= form.label :guess, "Your guess:" %>
         <%= form.text_field :guess, maxlength: 1 %>
         <%= form.submit "Submit", class: "btn btn-primary" %>
@@ -39,6 +39,7 @@
     <div>Players money:
       <% @players_money.each do |player_money| %>
         <a><i class="bi-caret-right-fill"></i> <%= player_money %> </a>
+        <br>
       <% end %>
     </div>
   </div>

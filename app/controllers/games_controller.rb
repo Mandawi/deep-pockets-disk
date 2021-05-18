@@ -1,13 +1,14 @@
 require_dependency './lib/games_utils'
 class GamesController < ApplicationController
   before_action :set_game, only: %i[ show edit update destroy start ]
-  before_action :set_game_room, only: [:show]
-  before_action :set_waiting_room, only: [:show]
+  before_action :set_game_room, only: [:show, :update]
+  before_action :set_waiting_room, only: [:show, :update]
   before_action :require_login
 
   # GET /games or /games.json
   def index
     @games = Game.all
+    @game = Game.new
   end
 
   # DEPRECATED SHOW
@@ -33,13 +34,6 @@ class GamesController < ApplicationController
     # - Players
     # - Turns
     # - Track money
-    # - Add total money at end of round
-    if not @round.current_player_id.present?
-      @round.update(current_player_id: @game.users.first.id)
-    else
-      update_game_room 
-    end
-    
     if @round.present? and @round.over?
       next_round = @round.next
       
@@ -83,20 +77,47 @@ class GamesController < ApplicationController
     (0..2).each do |order|
       GamesUtils.create_game_round(@game, current_user, order)
     end
-    redirect_to @game
+    redirect_to games_path
   end
 
   # PATCH/PUT /games/1 or /games/1.json
   def update
-    respond_to do |format|
-      if @game.update(game_params)
-        format.html { redirect_to @game, notice: "Game was successfully updated." }
-        format.json { render :show, status: :ok, location: @game }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @game.errors, status: :unprocessable_entity }
-      end
+    # TODO: Update to include:
+    # - Rounds
+    # - Players
+    # - Turns
+    # - Track money
+    # - Add total money at end of round
+    if not @round.current_player_id.present?
+      @round.update(current_player_id: @game.users.first.id)
+    else
+      update_game_room 
     end
+    
+    if @round.present? and @round.over?
+      next_round = @round.next
+      
+      if next_round.present?
+        @game.update(current_round_id: next_round.id)
+        update_game_room
+      else
+        redirect_to games_url
+      end
+    elsif @guess.present?
+      if @sentence.include? @guess and not @opened_letters.include? @guess
+        @round_player.update(player_money: @round_player.player_money + @sentence.count(@guess))
+        @round.update(opened_letters: @opened_letters << @guess)  
+      else
+        next_player = @game.next_player(@player)
+        @round.update(current_player_id: next_player.id)
+      end
+
+      if @sentence.chars.uniq.sort == @round.opened_letters.sort
+        @round.update(over: true)
+      end
+      update_game_room          
+    end
+    redirect_to @game    
   end
 
   def start
@@ -107,10 +128,14 @@ class GamesController < ApplicationController
 
   # DELETE /games/1 or /games/1.json
   def destroy
+    @game.rounds.each do |round|
+      round.round_players.delete_all
+    end
+    @game.rounds.delete_all
+    @game.game_players.delete_all
     @game.destroy
     respond_to do |format|
-      format.html { redirect_to games_url, notice: "Game was successfully destroyed." }
-      format.json { head :no_content }
+      format.html { redirect_to games_url }
     end
   end
 

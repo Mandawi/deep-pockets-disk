@@ -1,0 +1,12 @@
+<%= turbo_frame_tag dom_id(game) do %>
+  <div class="card card mb-4">
+    <div class="card-body">
+      <h5 class="card-title"><%= link_to "Game ##{game.id}", game, 'data-turbo-frame': :_top %></h5>
+      
+      <p class="card-text"><%= time_ago_in_words game.created_at %> ago</p>
+    </div>
+    <div class="card-footer">
+      <%= button_to "Delete", game, method: :delete %>
+    </div>
+  </div>
+<% end %>

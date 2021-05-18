@@ -1,14 +1,15 @@
 <ol class="breadcrumb">
   <li class="breadcrumb-item active mr-auto">Games</li>
 </ol>
-<div class="card-columns">
-  <% @games.each do |game| %>
-    <div class="card card mb-4">
-      <div class="card-body">
-        <h5 class="card-title"><%= link_to game.to_s, game %></h5>
-        <p class="card-text"><%= time_ago_in_words game.created_at %> ago</p>
-      </div>
-    </div>
+
+<%= turbo_stream_from 'games' %>
+
+<%= turbo_frame_tag 'game_form' do %>
+  <%= render partial: 'form' %>
+<% end %>
+
+<div class="card-columns">  
+  <%= turbo_frame_tag 'games' do %>
+    <%= render @games %>
   <% end %>
 </div>
-<%= link_to "new", new_game_path %>

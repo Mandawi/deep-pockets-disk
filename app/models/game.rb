@@ -21,22 +21,26 @@ class Game < ApplicationRecord
   end
 
   def change_game_status
-    if self.started?
-      current_round = Round.find(self.current_round_id)
-      current_player = User.find(current_round.current_player_id)
-      starting_players_money = current_round.round_players.map{ |round_player| "#{ GamesController.helpers.get_username(User.find(round_player.user_id).email)}: #{ round_player.player_money }" }
-      broadcast_replace_to  [self, :started], 
-                            target: "#{dom_id(self)}_room_chooser", 
-                            partial: "games/room_chooser", 
-                            locals: { 
-                              game: self, 
-                              sentence: current_round.sentence, 
-                              round: current_round,
-                              player: current_player,
-                              topic: current_round.topic,
-                              opened_letters: current_round.opened_letters,
-                              players_money: starting_players_money,
-                            }
+    if self.saved_change_to_started? and self.started?
+      update_game_room(:started)
     end
+  end
+
+  def update_game_room(attribute)
+    current_round = Round.find(self.current_round_id)
+    current_player = User.find(current_round.current_player_id)
+    starting_players_money = current_round.round_players.map{ |round_player| "#{ GamesController.helpers.get_username(User.find(round_player.user_id).email)}: #{ round_player.player_money }" }
+    broadcast_replace_to  [self, attribute], 
+                          target: "#{dom_id(self)}_room_chooser", 
+                          partial: "games/room_chooser", 
+                          locals: { 
+                            game: self, 
+                            sentence: current_round.sentence, 
+                            round: current_round,
+                            player: current_player,
+                            topic: current_round.topic,
+                            opened_letters: current_round.opened_letters,
+                            players_money: starting_players_money,
+                          }
   end
 end

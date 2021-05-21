@@ -144,6 +144,7 @@ class GamesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_game
       @game = Game.find(params[:id])
+      session[:current_user_id] = current_user.id
     end
 
     def set_game_room

@@ -1,21 +1,21 @@
 <div class="row d-flex justify-content-center text-center">
 
-  <h1><%= (@round.order + 1).ordinalize %> Round</h1>
+  <h1><%= (round.order + 1).ordinalize %> Round</h1>
 
-  <h2><%= get_username(@player.email) %>'s Turn</h2>
+  <h2><%= get_username(player.email) %>'s Turn</h2>
 
   <div class="col-md-6">
 
     <hr>
 
     <div class = 'display-4 rounded text-dark'>
-      <%= @topic %>
+      <%= topic %>
     </div>
 
     <div dir='rtl' class = 'm-3 centered'>
-      <% @sentence.split.each do |word| %>
+      <% sentence.split.each do |word| %>
         <% word.split('').each do |letter| %>
-          <%= render partial: 'puzzle_letter', locals: {letter: letter, opened_letters: @opened_letters} %>
+          <%= render partial: "games/puzzle_letter", locals: {letter: letter, opened_letters: opened_letters} %>
         <% end %>
         <br>
       <% end %>
@@ -26,8 +26,8 @@
   </div>
   
   <div>
-    <% if @player.id == current_user.id %>
-      <%= form_with url: @game, method: :get do |form| %>
+    <% if player.id == session[:current_user_id].to_i %>
+      <%= form_with url: game, method: :get do |form| %>
         <%= form.label :guess, "Your guess:" %>
         <%= form.text_field :guess, maxlength: 1 %>
         <%= form.submit "Submit", class: "btn btn-primary" %>
@@ -37,7 +37,7 @@
 
   <div class="col-md-1">
     <div>Players money:
-      <% @players_money.each do |player_money| %>
+      <% players_money.each do |player_money| %>
         <a><i class="bi-caret-right-fill"></i> <%= player_money %> </a>
         <br>
       <% end %>

@@ -6,10 +6,14 @@
   <ul class="list-group list-group-flush">
   </ul>
   <div class='p-5'>
-    <% if @game.started? %>
-      <%= render "game_room" %>
-    <% else %>
-      <%= render "waiting_room" %>
-    <% end %>
+    <%= render partial: "room_chooser", locals: {
+      game: @game, 
+      sentence: @sentence, 
+      round: @round,
+      player: @player,
+      topic: @topic,
+      opened_letters: @opened_letters,
+      players_money: @players_money,
+    } %>
   </div>
 </div>

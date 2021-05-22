@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :games do
     member do 
       patch :start
+      post :guess
     end
   end
   

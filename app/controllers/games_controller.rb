@@ -1,32 +1,17 @@
 require_dependency './lib/games_utils'
 class GamesController < ApplicationController
-  before_action :set_game, only: %i[ show edit update destroy start ]
-  before_action :set_game_room, only: [:show, :update]
+  before_action :set_game, only: %i[ show edit update destroy start guess]
+  before_action :set_game_room, only: [:show, :update, :guess]
   before_action :set_waiting_room, only: [:show, :update]
   before_action :require_login
   skip_before_action :verify_authenticity_token
+  include ActionView::RecordIdentifier
 
   # GET /games or /games.json
   def index
     @games = Game.all
     @game = Game.new
   end
-
-  # DEPRECATED SHOW
-  # def show
-  #   @sentence = "chickens like to jump"
-    # @guess = params[:guess]
-    # @opened_letters = @game.opened_letters
-    # @score = Score.where(game_id: @game.id, user_id: current_user.id).first
-    # if @guess.present?
-    #   if @sentence.include? @guess and not @opened_letters.include? @guess
-    #     newscore = @score.total + @sentence.count(@guess)
-    #     @score.update(total: newscore)
-    #     @game.update(opened_letters: @opened_letters << @guess)  
-    #   end
-    # end
-    # @total = @score.total
-  # end
 
   # GET /games/1 or /games/1.json
   def show
@@ -41,12 +26,65 @@ class GamesController < ApplicationController
       if next_round.present?
         @game.update(current_round_id: next_round.id)
         update_game_room
+        @current_user = current_user
+        Turbo::StreamsChannel.broadcast_replace_to(
+          [@game, :started], 
+          target: "#{dom_id(@game)}_room_chooser", 
+          partial: "games/room_chooser", 
+          locals: {
+            game: @game, 
+            sentence: @sentence, 
+            round: @round,
+            player: @player,
+            topic: @topic,
+            opened_letters: @opened_letters,
+            players_money: @players_money,
+          }
+        )
       else
         redirect_to games_url
       end
-    elsif @guess.present?
+    # elsif @guess.present?
+    #   if @sentence.include? @guess and not @opened_letters.include? @guess
+    #     @round_player.update(player_money: @round_player.player_money + @sentence.count(@guess))
+    #     @round.update(opened_letters: @opened_letters << @guess)  
+    #   else
+    #     next_player = @game.next_player(@player)
+    #     @round.update(current_player_id: next_player.id)
+    #   end
+
+    #   if @sentence.chars.uniq.sort == @round.opened_letters.sort
+    #     @round.update(over: true)
+    #   end
+    #   update_game_room  
+    #   Turbo::StreamsChannel.broadcast_replace_to(
+    #     [@game, :started], 
+    #     target: "#{dom_id(@game)}_room_chooser", 
+    #     partial: "games/room_chooser", 
+    #     locals: {
+    #       game: @game, 
+    #       guess: @guess,
+    #       sentence: @sentence, 
+    #       round: @round,
+    #       player: @player,
+    #       topic: @topic,
+    #       opened_letters: @opened_letters,
+    #       players_money: @players_money,
+    #       current_user_id: current_user.id
+    #     }
+    #   )
+    end
+  end
+
+  # POST /games/1/guess
+  def guess
+    if current_user.id != @player.id
+      redirect_to @game, alert: "It's not your turn yet!"
+    else
       if @sentence.include? @guess and not @opened_letters.include? @guess
         @round_player.update(player_money: @round_player.player_money + @sentence.count(@guess))
+        @round.update(opened_letters: @opened_letters << @guess)  
+          @round.update(opened_letters: @opened_letters << @guess)  
         @round.update(opened_letters: @opened_letters << @guess)  
       else
         next_player = @game.next_player(@player)
@@ -56,7 +94,23 @@ class GamesController < ApplicationController
       if @sentence.chars.uniq.sort == @round.opened_letters.sort
         @round.update(over: true)
       end
-      update_game_room          
+      update_game_room  
+      Turbo::StreamsChannel.broadcast_replace_to(
+        [@game, :started], 
+        target: "#{dom_id(@game)}_room_chooser", 
+        partial: "games/room_chooser", 
+        locals: {
+          game: @game, 
+          guess: @guess,
+          sentence: @sentence, 
+          round: @round,
+          player: @player,
+          topic: @topic,
+          opened_letters: @opened_letters,
+          players_money: @players_money,
+        }
+      )
+      redirect_to @game
     end
   end
 
@@ -121,6 +175,7 @@ class GamesController < ApplicationController
     redirect_to @game    
   end
 
+  # PATCH /games/1
   def start
     @game.update( started: true, 
                   current_round_id: @game.rounds.first.id)

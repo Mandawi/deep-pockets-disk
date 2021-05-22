@@ -4,7 +4,7 @@
 
   <h2><%= get_username(player.email) %>'s Turn</h2>
 
-  <div class="col-md-6">
+  <div class="col-md-12">
 
     <hr>
 
@@ -26,12 +26,10 @@
   </div>
   
   <div>
-    <% if player.id == session[:current_user_id].to_i %>
-      <%= form_with url: game, method: :get do |form| %>
-        <%= form.label :guess, "Your guess:" %>
-        <%= form.text_field :guess, maxlength: 1 %>
-        <%= form.submit "Submit", class: "btn btn-primary" %>
-      <% end %>
+    <%= form_with url: guess_game_path(game.id), method: :post do |form| %>
+      <%= form.label :guess, "Your guess:" %>
+      <%= form.text_field :guess, maxlength: 1 %>
+      <%= form.submit "Submit", class: "btn btn-primary" %>
     <% end %>
   </div>
 

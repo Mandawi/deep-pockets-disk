@@ -78,3 +78,6 @@ end
 gem "clearance", "~> 2.4"
 
 gem 'solargraph', group: :development
+gem "bootstrap", "~> 5.0"
+
+gem "jquery-rails", "~> 4.4"

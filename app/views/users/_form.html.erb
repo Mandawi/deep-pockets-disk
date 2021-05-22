@@ -1,9 +1,9 @@
-<div class="text-field">
-  <%= form.label :email %>
-  <%= form.text_field :email, type: 'email' %>
+<div class="text-field my-3">
+  <%= form.text_field :email, placeholder: "email", type: 'email', class: "rounded-pill form-control p-2 border-0 bg-light text-center" %>
 </div>
 
-<div class="password-field">
-  <%= form.label :password %>
-  <%= form.password_field :password %>
+<div class="password-field my-3">
+  <div class="input-group">
+    <%= form.password_field :password, placeholder: "password", class: "rounded-pill form-control p-2 border-0 bg-light text-center" %>
+  </div>
 </div>

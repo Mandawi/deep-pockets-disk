@@ -2,6 +2,11 @@
   <li class="breadcrumb-item"><%= link_to "Games", games_path, class: "text-secondary" %></li>
   <li class="breadcrumb-item text-primary"><%= @game.id %></li> 
 </ol>
+<% if @game.started? and not @game.game_players.map(&:user_id).include? current_user.id%>
+  <div class="mt-5 mb-2 mx-5 p-2 text-center bg-danger text-light rounded-pill shadow" role="alert">
+    Sorry, you can only watch. The game has already started.
+  </div>
+<% end %>
 <div class="card modern-card">
   <%= render partial: "room_chooser", locals: {
     game: @game, 

@@ -1,23 +1,21 @@
 <%= turbo_frame_tag dom_id(game) do %>
   <div class="card modern-card-sm bg-white" style="display:inline-block;">
     <div class="row">
-      <div class="col-10">
+      <div class="col-9">
       </div>
       <div class="col-2">
         <%= button_to " X ", game, method: :delete, class: "btn btn-sm btn-danger rounded-pill mb-2 display-sm"%>
       </div>
     </div>
-    <div class="card-body bg-light rounded">
+    <div class="card-body bg-light rounded" style="width:15rem;">
       <h5 class="">
         <%= link_to "Game ##{game.id}", game, 'data-turbo-frame': :_top %>
       </h5>
       <p class="card-text"><%= time_ago_in_words game.created_at %> ago</p>
     </div>
     <div class="card-footer border-0 bg-white p-3">
-      <div class="row">
-        <div class="col">
-          <%= button_to "Join", game, method: :get, class: "btn btn-warning modern-btn"%>
-        </div>
+      <div class="row justify-content-center">
+        <%= link_to "Join", game, method: :get, 'data-turbo-frame': :_top, class: "btn btn-warning modern-btn"%>
       </div>
     </div>
   </div>

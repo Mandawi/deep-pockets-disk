@@ -9,7 +9,10 @@
       <%= render @game.game_players %>
     <% end %>
   </ul>
-  <a href="<%= url_for(only_path: false) %>" onclick="copytoclipboard(); this.innerHTML='Copied!';">Copy Link</a>
+  <div class="input-group rounded border-0 bg-primary text-white">
+    <%= tag.i class:"bi bi-share-fill py-2 px-3" %>
+    <%= text_field_tag :link, url_for(only_path: false), readonly: true, onclick: 'this.select();', class:"form-control bg-white border-0 text-primary" %>
+  </div>
 </div>
 
 <div class="submit-field d-grid gap-1 justify-content-center">

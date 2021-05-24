@@ -9,7 +9,7 @@
     </div>
     <div class="card-body bg-light rounded" style="width:15rem;">
       <h5 class="">
-        <%= link_to "Game ##{game.id}", game, 'data-turbo-frame': :_top %>
+        <%= link_to "Game #{game.id}", game, 'data-turbo-frame': :_top %>
       </h5>
       <p class="card-text"><%= time_ago_in_words game.created_at %> ago</p>
     </div>

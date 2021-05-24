@@ -26,10 +26,17 @@
   </div>
   
   <div>
-    <%= form_with url: guess_game_path(game.id), method: :post do |form| %>
-      <%= form.label :guess, "Your guess:" %>
-      <%= form.text_field :guess, maxlength: 1 %>
-      <%= form.submit "Submit", class: "btn btn-primary" %>
+    <%= form_with url: guess_game_path(game.id), method: :post, class: "form-horizontal" do |form| %>
+      <div class="row justify-content-center m-3">
+        <div class="col-sm-4">
+          <%= form.text_field :guess, maxlength: 1, placeholder: "your guess", class: "form-control form-control-sm rounded-pill border-0 bg-light text-center" %>
+        </div>
+        <div class="col-sm-2">
+          <%= button_tag class: "btn btn-primary modern-btn-sm col" do %>
+            Guess <i class="bi bi-check-circle-fill"></i>
+          <% end %>
+        </div>
+      </div>
     <% end %>
   </div>
 

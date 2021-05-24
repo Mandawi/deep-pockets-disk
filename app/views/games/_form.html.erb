@@ -6,12 +6,13 @@
       </div>
     <% end %>
   <% end %>
-
-  <div class="card">
-    <ul class="list-group list-group-flush">
-    </ul>
-    <div class="card-footer">
-      <%= form.submit "Create a new game", class: "btn btn-primary float-right"%>
-    </div>
+  
+  <ul class="list-group list-group-flush">
+  </ul>
+  
+  <div class="d-grid mx-5">
+    <%= button_tag class: "btn btn-primary modern-btn" do %>
+      Create Game <i class="bi bi-plus-circle-fill"></i>
+    <% end %>
   </div>
 <% end %>

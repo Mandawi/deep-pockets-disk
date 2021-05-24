@@ -1,13 +1,19 @@
 <%= turbo_stream_from @game, :game_players %>
 
-<h2>Hello <%= @user %> </h2>
+<h2 class="text-center">Hello, <%= @user %>!</h2>
 
-<p>This is game <%= @game.id %> with the following players:
+<div class="rounded bg-light p-3 my-3">
+  <p>This is game <%= @game.id %> with the following players:</p>
   <ul>
     <%= tag.div id: "#{dom_id(@game)}_game_players" do %>
       <%= render @game.game_players %>
     <% end %>
   </ul>
-</p>
+  <a href="<%= url_for(only_path: false) %>" onclick="copytoclipboard(); this.innerHTML='Copied!';">Copy Link</a>
+</div>
 
-<%= button_to "Start Game", start_game_path(@game), method: :patch %>
+<div class="submit-field d-grid gap-1 justify-content-center">
+  <%= button_to start_game_path(@game), method: :patch, class: "btn btn-primary modern-btn" do %>
+    Start Game <i class="bi bi-joystick"></i>
+  <% end %>
+</div>

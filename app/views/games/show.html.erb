@@ -1,19 +1,15 @@
-<ol class="breadcrumb">
-  <li class="breadcrumb-item"><%= link_to "Games", games_path %></li>
-  <li class="breadcrumb-item active mr-auto"><%= @game.id %></li> 
+<ol class="m-4 breadcrumb">
+  <li class="breadcrumb-item"><%= link_to "Games", games_path, class: "text-secondary" %></li>
+  <li class="breadcrumb-item text-primary"><%= @game.id %></li> 
 </ol>
-<div class="card">
-  <ul class="list-group list-group-flush">
-  </ul>
-  <div class='p-5'>
-    <%= render partial: "room_chooser", locals: {
-      game: @game, 
-      sentence: @sentence, 
-      round: @round,
-      player: @player,
-      topic: @topic,
-      opened_letters: @opened_letters,
-      players_money: @players_money,
-    } %>
-  </div>
+<div class="card modern-card">
+  <%= render partial: "room_chooser", locals: {
+    game: @game, 
+    sentence: @sentence, 
+    round: @round,
+    player: @player,
+    topic: @topic,
+    opened_letters: @opened_letters,
+    players_money: @players_money,
+  } %>
 </div>

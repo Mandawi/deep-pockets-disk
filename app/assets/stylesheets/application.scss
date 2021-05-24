@@ -393,3 +393,31 @@ legend {
   font-size: 12px;
   color: #777;
 }
+
+// DPD Custom =====================================================================
+
+.modern-btn {
+  @extend .rounded-pill;
+  @extend .border-0;
+  @extend .px-5;
+}
+
+.modern-btn-sm {
+  @extend .rounded-pill;
+  @extend .border-0;
+  @extend .px-2;
+}
+
+.modern-card {
+  @extend .m-5;
+  @extend .border-0;
+  @extend .shadow;
+  @extend .p-5;
+}
+
+.modern-card-sm {
+  @extend .m-5;
+  @extend .border-0;
+  @extend .shadow;
+  @extend .p-2;
+}

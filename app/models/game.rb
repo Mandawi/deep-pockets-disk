@@ -7,7 +7,7 @@ class Game < ApplicationRecord
   has_many :users, through: :game_players
   has_many :rounds
 
-  after_create_commit { broadcast_prepen_to 'games' }
+  after_create_commit { broadcast_prepend_to 'games' }
   after_destroy_commit { broadcast_remove_to 'games' }
   after_commit :change_game_status, on: :update
 

@@ -7,5 +7,5 @@ test:
 
 production:
   adapter: redis
-  url: <%= ENV.fetch("REDIS_URL") { "redis://localhost:6379/1" } %>
+  url: <%= ENV.fetch("REDIS_URL") { "redis://:p5e5814d11200a97f4ca587c69db743189234645d8342547f5a5b6b22b6742449@ec2-52-203-89-49.compute-1.amazonaws.com:8480" } %>
   channel_prefix: deep_pockets_disk_production

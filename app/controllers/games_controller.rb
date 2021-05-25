@@ -83,18 +83,25 @@ class GamesController < ApplicationController
     if current_user.id != @player.id
       redirect_to @game, alert: "It's not your turn yet!"
     else
-      if @spin_result == -1
-        @round_player.update(player_money: 0)
-        next_player = @game.next_player(@player)
-        @round.update(current_player_id: next_player.id)
-      elsif @sentence.include? @guess and not @opened_letters.include? @guess
-        @round_player.update(player_money: @round_player.player_money + (@sentence.count(@guess) * @spin_result))
-        @round.update(opened_letters: @opened_letters << @guess)  
-        @round.update(opened_letters: @opened_letters << @guess)  
-        @round.update(opened_letters: @opened_letters << @guess)  
+      if @full_guess.present?
+        if @sentence == @full_guess
+          @round.update(opened_letters: (@opened_letters + @full_guess.scan(/\w/)).uniq)  
+        else
+          next_player = @game.next_player(@player)
+          @round.update(current_player_id: next_player.id)
+        end
       else
-        next_player = @game.next_player(@player)
-        @round.update(current_player_id: next_player.id)
+        if @spin_result == -1
+          @round_player.update(player_money: 0)
+          next_player = @game.next_player(@player)
+          @round.update(current_player_id: next_player.id)
+        elsif @sentence.include? @guess and not @opened_letters.include? @guess
+          @round_player.update(player_money: @round_player.player_money + (@sentence.count(@guess) * @spin_result))
+          @round.update(opened_letters: @opened_letters << @guess)  
+        else
+          next_player = @game.next_player(@player)
+          @round.update(current_player_id: next_player.id)
+        end
       end
 
       if @sentence.chars.uniq.sort.length == @round.opened_letters.sort.length
@@ -216,6 +223,7 @@ class GamesController < ApplicationController
         @sentence = @round.sentence
         @topic = @round.topic
         @guess = params[:guess]
+        @full_guess = params[:full_guess]
         @spin_result = params[:spin_result].to_i
         @opened_letters = @round.opened_letters
         @players_money = @round.round_players.map{ |round_player| "#{ helpers.get_username(User.find(round_player.user_id).email)}: #{ number_to_currency(round_player.player_money, precision: 0) }" }
@@ -229,6 +237,7 @@ class GamesController < ApplicationController
       @sentence = @round.sentence
       @topic = @round.topic
       @guess = params[:guess]
+      @full_guess = params[:full_guess]
       @spin_result = params[:spin_result].to_i
       @opened_letters = @round.opened_letters
       @players_money = @round.round_players.map{ |round_player| "#{ helpers.get_username(User.find(round_player.user_id).email)}: #{ number_to_currency(round_player.player_money, precision: 0) }" }

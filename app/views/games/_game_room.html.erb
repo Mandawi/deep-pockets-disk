@@ -27,9 +27,21 @@
           <%= form.hidden_field :spin_result, id: "spin_result", readonly: true %>
           <%= form.text_field :guess, id: "guess_field", maxlength: 1, placeholder: "دور اولا", class: "form-control rounded-pill border-0 bg-light text-center mb-3", required: true, disabled: true %>
         </div>
-        <div class="col-sm-2">
+        <div class="col-sm-4">
           <%= button_tag class: "btn btn-primary modern-btn-sm col", id: "guess_button" do %>
-            احزر
+            احزر حرف
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+    <%= form_with url: guess_game_path(game.id), method: :post, class: "form-horizontal d-lg-none d-xl-none d-xl-block" do |form| %>
+      <div class="row justify-content-center m-3" dir="rtl">
+        <div class="col-sm-4">
+          <%= form.text_field :full_guess, placeholder: "ادخل الجملة", class: "form-control rounded-pill border-0 bg-light text-center mb-3", required: true %>
+        </div>
+        <div class="col-sm-4">
+          <%= button_tag class: "btn btn-primary modern-btn-sm col" do %>
+            احزر الجملة
           <% end %>
         </div>
       </div>

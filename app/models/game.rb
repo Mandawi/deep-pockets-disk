@@ -1,3 +1,4 @@
+require_dependency './lib/games_utils'
 class Game < ApplicationRecord
   include ActionView::RecordIdentifier
   include ActionView::Helpers
@@ -35,6 +36,7 @@ class Game < ApplicationRecord
                           partial: "games/room_chooser", 
                           locals: { 
                             game: self, 
+                            disk_content: GamesUtils.get_disk_content,
                             sentence: current_round.sentence, 
                             round: current_round,
                             player: current_player,

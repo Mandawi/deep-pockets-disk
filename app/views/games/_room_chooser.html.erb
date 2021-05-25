@@ -3,6 +3,7 @@
   <% if game.started? %>
     <%= render partial: "games/game_room", locals: {
       game: game, 
+      disk_content: @disk_content,
       sentence: sentence, 
       round: round,
       player: player,

@@ -16,17 +16,16 @@
   }
 
   ready(function() {
-  var padding = {top:20, right:40, bottom:0, left:0},
-      w = 500 - padding.left - padding.right,
-      h = 500 - padding.top  - padding.bottom,
+  var padding = {top:0, right:0, bottom:0, left:0},
+      w = 300 - padding.left - padding.right,
+      h = 300 - padding.top  - padding.bottom,
       r = Math.min(w, h)/2,
       rotation = 0,
       oldrotation = 0,
       picked = 100000,
       color = d3.scale.category20();
       //randomNumbers = getRandomNumbers();
-  //http://osric.com/bingo-card-generator/?title=HTML+and+CSS+BINGO!&words=padding%2Cfont-family%2Ccolor%2Cfont-weight%2Cfont-size%2Cbackground-color%2Cnesting%2Cbottom%2Csans-serif%2Cperiod%2Cpound+sign%2C%EF%B9%A4body%EF%B9%A5%2C%EF%B9%A4ul%EF%B9%A5%2C%EF%B9%A4h1%EF%B9%A5%2Cmargin%2C%3C++%3E%2C{+}%2C%EF%B9%A4p%EF%B9%A5%2C%EF%B9%A4!DOCTYPE+html%EF%B9%A5%2C%EF%B9%A4head%EF%B9%A5%2Ccolon%2C%EF%B9%A4style%EF%B9%A5%2C.html%2CHTML%2CCSS%2CJavaScript%2Cborder&freespace=true&freespaceValue=Web+Design+Master&freespaceRandom=false&width=5&height=5&number=35#results
-  var disk_content = <%= raw @disk_content.to_json %>
+  var disk_content = <%= raw disk_content.to_json %>
   var data = disk_content;
   var svg = d3.select('#chart')
       .append("svg")
@@ -55,7 +54,7 @@
   // add the text
   arcs.append("text").attr("transform", function(d){
           d.innerRadius = 0;
-          d.outerRadius = 210;
+          d.outerRadius = 130;
           d.angle = (d.startAngle + d.endAngle)/2;
           return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")translate(" + (d.outerRadius -10) +")";
       })
@@ -87,11 +86,12 @@
               container.on("click", spin);
           });
       setTimeout(function(){document.getElementById("spin_result").setAttribute("value", data[picked].question);}, 3000);
-      setTimeout(function(){if (document.getElementById("spin_result").value == "-1"){
+      setTimeout(function(){document.getElementById("spin_result_dead").setAttribute("value", data[picked].question);}, 3000);
+      setTimeout(function(){if (document.getElementById("spin_result_dead").value == "-1"){
         document.getElementById("guess_button").click();
       }},5000)
       setTimeout(function(){
-        document.getElementById("guess_field").placeholder = "احزر حرف الان";
+        document.getElementById("guess_field").placeholder = "احزر";
         document.getElementById("guess_field").removeAttribute("disabled");
       },3001)
   }
@@ -105,7 +105,7 @@
   container.append("circle")
       .attr("cx", 0)
       .attr("cy", 0)
-      .attr("r", 90)
+      .attr("r", 50)
       .style({"fill":"green","cursor":"pointer"});
   //spin text
   container.append("text")
@@ -113,7 +113,7 @@
       .attr("y", 15)
       .attr("text-anchor", "middle")
       .text("دور")
-      .style({"font-weight":"bold", "font-size":"50px"});
+      .style({"font-weight":"bold", "font-size":"30px"});
   
   
   function rotTween(to) {
@@ -143,15 +143,15 @@
 <style type="text/css">
   text{
       font-family:Helvetica, Arial, sans-serif;
-      font-size:20px;
+      font-size:15px;
       pointer-events:none;
       text-shadow: 2px 2px;
       font-weight: bold;
   }
   #chart{
       position:relative;
-      width:500px;
-      height:500px;
+      width:200px;
+      height:300px;
       margin:auto;
   }
   #question{

@@ -7,9 +7,13 @@
     Sorry, you can only watch. The game has already started.
   </div>
 <% end %>
+<div class="row m-5 justify-content-center d-lg-none d-xl-none d-xl-block" dir="ltr" style="width:60%">
+  <%= render partial: 'games/disk', locals: {disk_content: @disk_content} %>
+</div>
 <div class="card modern-card">
   <%= render partial: "room_chooser", locals: {
     game: @game, 
+    disk_content: @disk_content,
     sentence: @sentence, 
     round: @round,
     player: @player,

@@ -18,17 +18,19 @@
     <hr>
   </div>
   <div>
+    <%= form_with url: guess_game_path(game.id), method: :post do |form| %>
+      <%= form.hidden_field :spin_result, id: "spin_result_dead", readonly: true %>
+      <%= button_tag style: "display:none;", id:"guess_button" do %>
+      <% end %>
+    <% end %>
     <%= form_with url: guess_game_path(game.id), method: :post, class: "form-horizontal d-lg-none d-xl-none d-xl-block" do |form| %>
-      <div class="row justify-content-center mb-4" dir="ltr">
-        <%= render 'games/disk'%>
-      </div>
       <div class="row justify-content-center m-3" dir="rtl">
-        <div class="col-sm-4">
+        <div class="col-4">
           <%= form.hidden_field :spin_result, id: "spin_result", readonly: true %>
           <%= form.text_field :guess, id: "guess_field", maxlength: 1, placeholder: "دور اولا", class: "form-control rounded-pill border-0 bg-light text-center mb-3", required: true, disabled: true %>
         </div>
-        <div class="col-sm-4">
-          <%= button_tag class: "btn btn-primary modern-btn-sm col", id: "guess_button" do %>
+        <div class="col-5">
+          <%= button_tag class: "btn btn-primary modern-btn-sm col" do %>
             احزر حرف
           <% end %>
         </div>
@@ -36,18 +38,18 @@
     <% end %>
     <%= form_with url: guess_game_path(game.id), method: :post, class: "form-horizontal d-lg-none d-xl-none d-xl-block" do |form| %>
       <div class="row justify-content-center m-3" dir="rtl">
-        <div class="col-sm-4">
+        <div class="col-7">
           <%= form.text_field :full_guess, placeholder: "ادخل الجملة", class: "form-control rounded-pill border-0 bg-light text-center mb-3", required: true %>
         </div>
-        <div class="col-sm-4">
-          <%= button_tag class: "btn btn-primary modern-btn-sm col" do %>
+        <div class="col-5">
+          <%= button_tag class: "btn btn-secondary modern-btn-sm col" do %>
             احزر الجملة
           <% end %>
         </div>
       </div>
     <% end %>
   </div>
-  <div class="col-md-4" dir="ltr">
+  <div class="col-md-4  d-none d-sm-none d-md-none d-lg-block d-xl-block" dir="ltr">
     <div>فلوس اللاعبين:
       <% players_money.each do |player_money| %>
         <br>

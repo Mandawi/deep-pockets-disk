@@ -6,6 +6,7 @@ class GamesController < ApplicationController
   before_action :require_login
   skip_before_action :verify_authenticity_token
   include ActionView::RecordIdentifier
+  include ActionView::Helpers::NumberHelper
 
   # GET /games or /games.json
   def index
@@ -20,6 +21,7 @@ class GamesController < ApplicationController
     # - Players
     # - Turns
     # - Track money
+    @disk_content = GamesUtils.get_disk_content
     if @round.present? and @round.over?
       next_round = @round.next
       
@@ -81,17 +83,21 @@ class GamesController < ApplicationController
     if current_user.id != @player.id
       redirect_to @game, alert: "It's not your turn yet!"
     else
-      if @sentence.include? @guess and not @opened_letters.include? @guess
-        @round_player.update(player_money: @round_player.player_money + @sentence.count(@guess))
+      if @spin_result == -1
+        @round_player.update(player_money: 0)
+        next_player = @game.next_player(@player)
+        @round.update(current_player_id: next_player.id)
+      elsif @sentence.include? @guess and not @opened_letters.include? @guess
+        @round_player.update(player_money: @round_player.player_money + (@sentence.count(@guess) * @spin_result))
         @round.update(opened_letters: @opened_letters << @guess)  
-          @round.update(opened_letters: @opened_letters << @guess)  
+        @round.update(opened_letters: @opened_letters << @guess)  
         @round.update(opened_letters: @opened_letters << @guess)  
       else
         next_player = @game.next_player(@player)
         @round.update(current_player_id: next_player.id)
       end
 
-      if @sentence.chars.uniq.sort == @round.opened_letters.sort
+      if @sentence.chars.uniq.sort.length == @round.opened_letters.sort.length
         @round.update(over: true)
       end
       update_game_room  
@@ -210,8 +216,9 @@ class GamesController < ApplicationController
         @sentence = @round.sentence
         @topic = @round.topic
         @guess = params[:guess]
+        @spin_result = params[:spin_result].to_i
         @opened_letters = @round.opened_letters
-        @players_money = @round.round_players.map{ |round_player| "#{ helpers.get_username(User.find(round_player.user_id).email)}: #{ round_player.player_money }" }
+        @players_money = @round.round_players.map{ |round_player| "#{ helpers.get_username(User.find(round_player.user_id).email)}: #{ number_to_currency(round_player.player_money, precision: 0) }" }
       end
     end
 
@@ -222,8 +229,9 @@ class GamesController < ApplicationController
       @sentence = @round.sentence
       @topic = @round.topic
       @guess = params[:guess]
+      @spin_result = params[:spin_result].to_i
       @opened_letters = @round.opened_letters
-      @players_money = @round.round_players.map{ |round_player| "#{ helpers.get_username(User.find(round_player.user_id).email)}: #{ round_player.player_money }" }
+      @players_money = @round.round_players.map{ |round_player| "#{ helpers.get_username(User.find(round_player.user_id).email)}: #{ number_to_currency(round_player.player_money, precision: 0) }" }
     end
 
     def set_waiting_room

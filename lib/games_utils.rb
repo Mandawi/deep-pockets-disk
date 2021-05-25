@@ -1,6 +1,6 @@
 class GamesUtils
   ARABIC_CATEGORIZED_PHRASES_FILE_PATH = File.join(Rails.root, 'lib', 'assets', 'arabic-categorized-phrases.json')
-
+  DISK_CONTENT = File.join(Rails.root, 'lib', 'assets', 'disk_content.json')
   def self.get_random_phrase_from_topic(topic)
     file = File.read(ARABIC_CATEGORIZED_PHRASES_FILE_PATH)
     return JSON.parse(file)[topic].sample
@@ -36,5 +36,10 @@ class GamesUtils
     end
     sentence = get_random_phrase_from_topic(topic)
     return sentence, topic
+  end
+
+  def self.get_disk_content
+    file = File.read(DISK_CONTENT )
+    return JSON.parse(file)
   end
 end

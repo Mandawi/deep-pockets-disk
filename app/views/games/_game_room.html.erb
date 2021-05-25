@@ -1,18 +1,12 @@
 <div class="row d-flex justify-content-center text-center">
-
   <h1><%= (round.order + 1).ordinalize %> Round</h1>
-
   <h2><%= get_username(player.email) %>'s Turn</h2>
-
-  <div class="col-md-12">
-
+  <div class="col-md-12 d-none d-sm-none d-md-none d-lg-block d-xl-block">
     <hr>
-
-    <div class = 'display-4 rounded text-dark d-none d-sm-none d-md-none d-lg-block d-xl-block'>
+    <div class = 'display-4 rounded text-dark'>
       <%= topic %>
     </div>
-
-    <div dir='rtl' class = 'm-3 d-none d-sm-none d-md-none d-lg-block d-xl-block centered'>
+    <div dir='rtl' class = 'm-3 d-none centered'>
       <% sentence.split.each do |word| %>
         <% word.split('').each do |letter| %>
           <%= render partial: "games/puzzle_letter", locals: {letter: letter, opened_letters: opened_letters} %>
@@ -20,11 +14,8 @@
         <br>
       <% end %>
     </div>
-
     <hr>
-
   </div>
-  
   <div>
     <%= form_with url: guess_game_path(game.id), method: :post, class: "form-horizontal d-lg-none d-xl-none d-xl-block" do |form| %>
       <div class="row justify-content-center m-3">
@@ -39,7 +30,6 @@
       </div>
     <% end %>
   </div>
-
   <div class="col-md-4">
     <div>Players money:
       <% players_money.each do |player_money| %>
@@ -48,5 +38,4 @@
       <% end %>
     </div>
   </div>
-
 </div>

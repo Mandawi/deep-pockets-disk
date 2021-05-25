@@ -1,7 +1,5 @@
 <%= turbo_stream_from @game, :game_players %>
-
 <h2 class="text-center">Hello, <%= @user %>!</h2>
-
 <div class="rounded bg-light p-3 my-3">
   <p>This is game <%= @game.id %> with the following players:</p>
   <ul>
@@ -14,7 +12,6 @@
     <%= text_field_tag :link, url_for(only_path: false), readonly: true, onclick: 'this.select();', class:"form-control bg-white border-0 text-primary" %>
   </div>
 </div>
-
 <div class="submit-field d-grid gap-1 justify-content-center">
   <%= button_to start_game_path(@game), method: :patch, class: "btn btn-primary modern-btn" do %>
     Start Game <i class="bi bi-joystick"></i>

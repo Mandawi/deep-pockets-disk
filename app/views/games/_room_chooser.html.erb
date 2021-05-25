@@ -1,5 +1,4 @@
 <%= turbo_stream_from game, :started %>
-
 <%= tag.div id: "#{dom_id(game)}_room_chooser" do %>
   <% if game.started? %>
     <%= render partial: "games/game_room", locals: {

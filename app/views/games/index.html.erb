@@ -1,14 +1,11 @@
 <ol class="m-4 breadcrumb">
   <li class="breadcrumb-item active mr-auto text-secondary">Games</li>
 </ol>
-
 <%= turbo_stream_from 'games' %>
-
 <%= turbo_frame_tag 'game_form' do %>
   <%= render partial: 'form' %>
 <% end %>
-
-<div class="card-group d-flex flex-wrap">  
+<div class="card-group d-flex flex-wrap">
   <%= turbo_frame_tag 'games' do %>
     <%= render @games %>
   <% end %>

@@ -3,20 +3,17 @@
     <%= tag.i class:"bi bi-envelope-fill px-3 py-2" %>
     <%= form.text_field :email, placeholder: "email", type: 'email', class: "rounded-pill form-control border-0 bg-light" %>
   </div>
-
   <div class="password-field my-3">
     <div class="input-group rounded-pill border-0 bg-light text-primary">
       <%= tag.i class:"bi bi-key-fill px-3 py-2" %>
       <%= form.password_field :password, placeholder: "password", class: "form-control border-0 bg-light rounded-pill" %>
     </div>
   </div>
-
   <div class="submit-field my-4 d-grid gap-1">
     <%= button_tag class: "btn btn-primary modern-btn" do %>
       Sign in <i class="bi bi-box-arrow-in-right"></i>
     <% end %>
   </div>
-
   <div class="other-links mt-2 mb-3">
     <% if Clearance.configuration.allow_sign_up? %>
       <%= link_to "Create a new account", sign_up_path %>

@@ -85,7 +85,8 @@ class GamesController < ApplicationController
     else
       if @full_guess.present?
         if @sentence == @full_guess
-          @round.update(opened_letters: (@opened_letters + @full_guess.scan(/\w/)).uniq)  
+          @round_player.update(player_money: @round_player.player_money + 1000)
+          @round.update(opened_letters: (@opened_letters + @full_guess.gsub(/\s+/, "").split("")).uniq)  
         else
           next_player = @game.next_player(@player)
           @round.update(current_player_id: next_player.id)

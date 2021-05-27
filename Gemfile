@@ -81,3 +81,5 @@ gem 'solargraph', group: :development
 gem "bootstrap", "~> 5.0"
 
 gem "jquery-rails", "~> 4.4"
+
+gem "tts", "~> 0.8.2"

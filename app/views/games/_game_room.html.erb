@@ -25,11 +25,11 @@
     <% end %>
     <%= form_with url: guess_game_path(game.id), method: :post, class: "form-horizontal d-lg-none d-xl-none d-xl-block" do |form| %>
       <div class="row justify-content-center m-3" dir="rtl">
-        <div class="col-4">
+        <div class="col-sm-4">
           <%= form.hidden_field :spin_result, id: "spin_result", readonly: true %>
           <%= form.text_field :guess, id: "guess_field", maxlength: 1, placeholder: "دور اولا", class: "form-control rounded-pill border-0 bg-light text-center mb-3", required: true, disabled: true %>
         </div>
-        <div class="col-5">
+        <div class="col-sm-5">
           <%= button_tag class: "btn btn-primary modern-btn-sm col" do %>
             احزر حرف
           <% end %>
@@ -38,10 +38,10 @@
     <% end %>
     <%= form_with url: guess_game_path(game.id), method: :post, class: "form-horizontal d-lg-none d-xl-none d-xl-block" do |form| %>
       <div class="row justify-content-center m-3" dir="rtl">
-        <div class="col-7">
+        <div class="col-sm-7">
           <%= form.text_field :full_guess, placeholder: "ادخل الجملة", class: "form-control rounded-pill border-0 bg-light text-center mb-3", required: true %>
         </div>
-        <div class="col-5">
+        <div class="col-sm-5">
           <%= button_tag class: "btn btn-secondary modern-btn-sm col" do %>
             احزر الجملة
           <% end %>
@@ -50,10 +50,10 @@
     <% end %>
   </div>
   <div class="col-md-4  d-none d-sm-none d-md-none d-lg-block d-xl-block" dir="ltr">
-    <div>فلوس اللاعبين:
+    <div class = "h5">فلوس اللاعبين:
       <% players_money.each do |player_money| %>
         <br>
-        <a><i class="bi-caret-right-fill"></i> <%= player_money %> </a>
+        <h4><i class="bi-caret-right-fill"></i> <%= player_money %> </h4>
       <% end %>
     </div>
   </div>

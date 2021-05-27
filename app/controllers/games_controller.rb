@@ -1,4 +1,6 @@
 require_dependency './lib/games_utils'
+require 'tts'
+
 class GamesController < ApplicationController
   before_action :set_game, only: %i[ show edit update destroy start guess]
   before_action :set_game_room, only: [:show, :update, :guess]
@@ -84,23 +86,40 @@ class GamesController < ApplicationController
       redirect_to @game, alert: "It's not your turn yet!"
     else
       if @full_guess.present?
+        "#{@full_guess}".play('ar')
         if @sentence == @full_guess
+          'جوابْ صحيحْ'.play('ar')
           @round_player.update(player_money: @round_player.player_money + 1000)
+          "مبروكْ الفْوْزْ يا  #{helpers.get_username(@round_player.email)}".play('ar')
           @round.update(opened_letters: (@opened_letters + @full_guess.gsub(/\s+/, "").split("")).uniq)  
+          "رَصْيْدَكْ الْكْامِلْ هْوَ #{@round_player.player_money}".play('ar')
         else
+          'جوابْ غلطْ بغلطْ'.play('ar')
           next_player = @game.next_player(@player)
+          "صارْ دْوْرْ #{helpers.get_username(next_player.email)}".play('ar')
           @round.update(current_player_id: next_player.id)
         end
       else
         if @spin_result == -1
+          'راحْ الرصيدْ معَ الأسفْ'.play('ar')
           @round_player.update(player_money: 0)
           next_player = @game.next_player(@player)
+          "صارْ دْوْرْ #{helpers.get_username(next_player.email)}".play('ar')
           @round.update(current_player_id: next_player.id)
         elsif @sentence.include? @guess and not @opened_letters.include? @guess
+          "#{@spin_result} دولارْ".play('ar')
+          "حرفْ ال #{@guess} ".play('ar')
+          'جوابْ صحيحْ'.play('ar')
           @round_player.update(player_money: @round_player.player_money + (@sentence.count(@guess) * @spin_result))
+          "رَصْيْدَكْ الْكْامِلْ هْوَ #{@round_player.player_money}".play('ar')
+          "العبْ مرهْ أخرىْ يا #{helpers.get_username(User.find(@round_player.user_id).email)}".play('ar')
           @round.update(opened_letters: @opened_letters << @guess)  
         else
+          "#{@spin_result} دولارْ".play('ar')
+          "حرفْ ال #{@guess} ".play('ar')
+          'جوابْ غلطْ '.play('ar')
           next_player = @game.next_player(@player)
+          "صارْ دْوْرْ #{helpers.get_username(next_player.email)}".play('ar')
           @round.update(current_player_id: next_player.id)
         end
       end

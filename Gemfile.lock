@@ -316,6 +316,7 @@ GEM
       rails (>= 6.0.0)
     thor (1.1.0)
     tilt (2.0.10)
+    tts (0.8.2)
     turbo-rails (0.5.9)
       rails (>= 6.0.0)
     tzinfo (2.0.4)
@@ -371,6 +372,7 @@ DEPENDENCIES
   solargraph
   spring
   standard
+  tts (~> 0.8.2)
   tzinfo-data
   web-console (>= 4.1.0)
   webdrivers

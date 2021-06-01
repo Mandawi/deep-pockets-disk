@@ -90,42 +90,75 @@ class GamesController < ApplicationController
         if @sentence == @full_guess
           'جوابْ صحيحْ'.play('ar')
           @round_player.update(player_money: @round_player.player_money + 1000)
-          "مبروكْ الفْوْزْ يا  #{helpers.get_username(@round_player.email)}".play('ar')
           @round.update(opened_letters: (@opened_letters + @full_guess.gsub(/\s+/, "").split("")).uniq)  
-          "رَصْيْدَكْ الْكْامِلْ هْوَ #{@round_player.player_money}".play('ar')
+          update_game_room  
+          Turbo::StreamsChannel.broadcast_replace_to(
+            [@game, :started], 
+            target: "#{dom_id(@game)}_room_chooser", 
+            partial: "games/room_chooser", 
+            locals: {
+              game: @game, 
+              guess: @guess,
+              sentence: @sentence, 
+              round: @round,
+              player: @player,
+              topic: @topic,
+              opened_letters: @opened_letters,
+              players_money: @players_money,
+            }
+          )
+          "مبروكْ الفْوْزْ يا  #{helpers.get_username(User.find(@round_player.user_id).email)}".play('ar')
+          "رَصْيْدَكْ الْكْامِلْ هْوَ #{@round_player.player_money} دولارْ".play('ar')
         else
           'جوابْ غلطْ بغلطْ'.play('ar')
           next_player = @game.next_player(@player)
-          "صارْ دْوْرْ #{helpers.get_username(next_player.email)}".play('ar')
           @round.update(current_player_id: next_player.id)
+          "صارْ دْوْرْ #{helpers.get_username(next_player.email)}".play('ar')
         end
       else
         if @spin_result == -1
-          'راحْ الرصيدْ معَ الأسفْ'.play('ar')
           @round_player.update(player_money: 0)
+          'راحْ الرصيدْ معَ الأسفْ'.play('ar')
           next_player = @game.next_player(@player)
           "صارْ دْوْرْ #{helpers.get_username(next_player.email)}".play('ar')
           @round.update(current_player_id: next_player.id)
         elsif @sentence.include? @guess and not @opened_letters.include? @guess
           "#{@spin_result} دولارْ".play('ar')
-          "حرفْ ال #{@guess} ".play('ar')
+          "حرفُ الْ #{@guess} ".play('ar')
           'جوابْ صحيحْ'.play('ar')
+          @round.update(opened_letters: @opened_letters << @guess)
+          update_game_room  
+          Turbo::StreamsChannel.broadcast_replace_to(
+            [@game, :started], 
+            target: "#{dom_id(@game)}_room_chooser", 
+            partial: "games/room_chooser", 
+            locals: {
+              game: @game, 
+              guess: @guess,
+              sentence: @sentence, 
+              round: @round,
+              player: @player,
+              topic: @topic,
+              opened_letters: @opened_letters,
+              players_money: @players_money,
+            }
+          )
+          "موجود منهُ #{@sentence.count(@guess)}".play('ar')
           @round_player.update(player_money: @round_player.player_money + (@sentence.count(@guess) * @spin_result))
-          "رَصْيْدَكْ الْكْامِلْ هْوَ #{@round_player.player_money}".play('ar')
-          "العبْ مرهْ أخرىْ يا #{helpers.get_username(User.find(@round_player.user_id).email)}".play('ar')
-          @round.update(opened_letters: @opened_letters << @guess)  
+          "رَصْيْدَكْ الْكْامِلْ هْوَ #{@round_player.player_money} دولارْ".play('ar')
         else
           "#{@spin_result} دولارْ".play('ar')
           "حرفْ ال #{@guess} ".play('ar')
           'جوابْ غلطْ '.play('ar')
           next_player = @game.next_player(@player)
-          "صارْ دْوْرْ #{helpers.get_username(next_player.email)}".play('ar')
           @round.update(current_player_id: next_player.id)
+          "صارْ دْوْرْ #{helpers.get_username(next_player.email)}".play('ar')
         end
       end
 
       if @sentence.chars.uniq.sort.length == @round.opened_letters.sort.length
         @round.update(over: true)
+        "مبروكْ الفْوْزْ يا  #{helpers.get_username(User.find(@round_player.user_id).email)}".play('ar')
       end
       update_game_room  
       Turbo::StreamsChannel.broadcast_replace_to(

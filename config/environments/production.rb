@@ -117,5 +117,6 @@ Rails.application.configure do
   # config.active_record.database_selector = { delay: 2.seconds }
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
-  config.action_mailer.default_url_options = { host: 'https://deep-pockets-disk.herokuapp.com' }
+  config.action_mailer.default_url_options = { host: 'http://c05299a5ca2d.ngrok.io/' }
+  config.hosts << /[a-z0-9]+\.ngrok\.io/
 end

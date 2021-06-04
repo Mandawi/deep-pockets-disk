@@ -143,6 +143,21 @@ class GamesController < ApplicationController
               players_money: @players_money,
             }
           )
+          Turbo::StreamsChannel.broadcast_replace_later_to(
+            [@game, :started], 
+            target: "#{dom_id(@game)}_room_chooser", 
+            partial: "games/room_chooser", 
+            locals: {
+              game: @game, 
+              guess: @guess,
+              sentence: @sentence, 
+              round: @round,
+              player: @player,
+              topic: @topic,
+              opened_letters: @opened_letters,
+              players_money: @players_money,
+            }
+          )
           "موجود منهُ #{@sentence.count(@guess)}".play('ar')
           @round_player.update(player_money: @round_player.player_money + (@sentence.count(@guess) * @spin_result))
           "رَصْيْدَكْ الْكْامِلْ هْوَ #{@round_player.player_money} دولارْ".play('ar')

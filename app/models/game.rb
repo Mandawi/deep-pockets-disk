@@ -44,5 +44,18 @@ class Game < ApplicationRecord
                             opened_letters: current_round.opened_letters,
                             players_money: starting_players_money,
                           }
+  broadcast_replace_later_to  [self, attribute], 
+                          target: "#{dom_id(self)}_room_chooser", 
+                          partial: "games/room_chooser", 
+                          locals: { 
+                            game: self, 
+                            disk_content: GamesUtils.get_disk_content,
+                            sentence: current_round.sentence, 
+                            round: current_round,
+                            player: current_player,
+                            topic: current_round.topic,
+                            opened_letters: current_round.opened_letters,
+                            players_money: starting_players_money,
+                          }
   end
 end
